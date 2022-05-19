@@ -1,0 +1,82 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:resizableControl="clr-namespace:Common.CustomControls.Controls.ResizableControl"
+  xmlns:thumbs1="clr-namespace:Common.CustomControls.Controls.ResizableControl.Thumbs">
+  <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+  <ControlTemplate x:Key="ResizeDecoratorTemplate" TargetType="{x:Type Control}">
+    <Grid>
+      <thumbs1:ResizeThumb
+        Height="3"
+        Margin="0,-4,0,0"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Top"
+        Cursor="SizeNS" />
+      <thumbs1:ResizeThumb
+        Width="3"
+        Margin="-4,0,0,0"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Stretch"
+        Cursor="SizeWE" />
+      <thumbs1:ResizeThumb
+        Width="3"
+        Margin="0,0,-4,0"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Stretch"
+        Cursor="SizeWE" />
+      <thumbs1:ResizeThumb
+        Height="3"
+        Margin="0,0,0,-4"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Bottom"
+        Cursor="SizeNS" />
+      <thumbs1:ResizeThumb
+        Width="7"
+        Height="7"
+        Margin="-6,-6,0,0"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Cursor="SizeNWSE" />
+      <thumbs1:ResizeThumb
+        Width="7"
+        Height="7"
+        Margin="0,-6,-6,0"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Top"
+        Cursor="SizeNESW" />
+      <thumbs1:ResizeThumb
+        Width="7"
+        Height="7"
+        Margin="-6,0,0,-6"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Bottom"
+        Cursor="SizeNESW" />
+      <thumbs1:ResizeThumb
+        Width="7"
+        Height="7"
+        Margin="0,0,-6,-6"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Bottom"
+        Cursor="SizeNWSE" />
+    </Grid>
+  </ControlTemplate>
+
+  <ControlTemplate x:Key="Template" TargetType="{x:Type resizableControl:ResizableControl}">
+    <Grid>
+      <thumbs1:MoveThumb
+        Cursor="SizeAll"
+        DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+        Visibility="{Binding CanMove, Converter={StaticResource BooleanToVisibilityConverter}}" />
+      <Control
+        DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+        Template="{StaticResource ResizeDecoratorTemplate}"
+        Visibility="{Binding CanResize, Converter={StaticResource BooleanToVisibilityConverter}}" />
+      <ContentPresenter Content="{TemplateBinding Content}" />
+    </Grid>
+  </ControlTemplate>
+
+  <Style TargetType="{x:Type resizableControl:ResizableControl}">
+    <Setter Property="Template" Value="{StaticResource Template}" />
+  </Style>
+</ResourceDictionary>
